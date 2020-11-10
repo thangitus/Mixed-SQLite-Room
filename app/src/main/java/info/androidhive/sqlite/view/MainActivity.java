@@ -3,6 +3,7 @@ package info.androidhive.sqlite.view;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -26,6 +27,7 @@ import java.util.List;
 import info.androidhive.sqlite.R;
 import info.androidhive.sqlite.database.AppRoomDataBase;
 import info.androidhive.sqlite.database.DatabaseHelper;
+import info.androidhive.sqlite.database.PersonDAO;
 import info.androidhive.sqlite.database.model.Note;
 import info.androidhive.sqlite.database.model.Person;
 import info.androidhive.sqlite.utils.MyDividerItemDecoration;
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
    private TextView noNotesView;
 
    private DatabaseHelper db;
+   PersonDAO personDAO;
 
    @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +54,9 @@ public class MainActivity extends AppCompatActivity {
       recyclerView = findViewById(R.id.recycler_view);
       noNotesView = findViewById(R.id.empty_notes_view);
 
-      AppRoomDataBase appRoomDataBase = AppRoomDataBase.Companion.getDatabase(this);
-      appRoomDataBase.personDao()
-                     .insert(new Person("Version 2.2"));
+      personDAO = AppRoomDataBase.Companion.getDatabase(this)
+                                           .personDao();
+
       db = new DatabaseHelper(this);
       notesList.addAll(db.getAllNotes());
 
@@ -240,5 +243,62 @@ public class MainActivity extends AppCompatActivity {
       } else {
          noNotesView.setVisibility(View.VISIBLE);
       }
+   }
+
+   Runnable insertRoom = new Runnable() {
+      @Override
+      public void run() {
+         for (int i = 0; i < 10; i++) {
+            personDAO.insert(new Person("Room Insert" + i));
+            try {
+               Thread.sleep(500);
+            } catch (InterruptedException e) {
+               e.printStackTrace();
+            }
+         }
+         Log.d("MainActivity", "insertRoom done");
+      }
+   };
+   Runnable insertSQLite = new Runnable() {
+      @Override
+      public void run() {
+         for (int i = 0; i < 10; i++)
+            db.insertNote("Insert SQLite " + i);
+         Log.d("MainActivity", "insertSQLite done");
+
+      }
+   };
+   Runnable querySQLite = new Runnable() {
+      @Override
+      public void run() {
+         for (int i = 0; i < 10; i++)
+            db.getAllNotes();
+         Log.d("MainActivity", "querySQLite done");
+
+      }
+   };
+   Runnable queryRoom = new Runnable() {
+      @Override
+      public void run() {
+         for (int i = 0; i < 10; i++)
+            personDAO.getAll();
+         Log.d("MainActivity", "queryRoom done");
+      }
+   };
+   public void insertAndInsert(View view) {
+      new Thread(insertRoom).start();
+      new Thread(insertSQLite).start();
+   }
+   public void queryAndQuery(View view) {
+      new Thread(queryRoom).start();
+      new Thread(querySQLite).start();
+   }
+   public void queryAndInsert(View view) {
+      new Thread(queryRoom).start();
+      new Thread(insertSQLite).start();
+   }
+   public void insertAndQuery(View view) {
+      new Thread(insertRoom).start();
+      new Thread(querySQLite).start();
    }
 }

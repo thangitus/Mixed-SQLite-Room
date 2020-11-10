@@ -56,7 +56,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
       // insert row
       long id = db.insert(Note.TABLE_NAME, null, values);
-
+      try {
+         Thread.sleep(500);
+      } catch (InterruptedException e) {
+         e.printStackTrace();
+      }
       // close db connection
       db.close();
 
@@ -97,7 +101,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             note.setId(cursor.getInt(cursor.getColumnIndex(Note.COLUMN_ID)));
             note.setNote(cursor.getString(cursor.getColumnIndex(Note.COLUMN_NOTE)));
             note.setTimestamp(cursor.getString(cursor.getColumnIndex(Note.COLUMN_TIMESTAMP)));
-
+            try {
+               Thread.sleep(100);
+            } catch (InterruptedException e) {
+               e.printStackTrace();
+            }
             notes.add(note);
          } while (cursor.moveToNext());
       }

@@ -10,5 +10,6 @@ interface PersonDAO {
     @Insert
     fun insert(person: Person)
 
-
+    @Query("SELECT * FROM Person")
+    fun getAll(): List<Person>
 }
