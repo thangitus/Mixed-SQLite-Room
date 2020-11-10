@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -52,9 +53,8 @@ public class MainActivity extends AppCompatActivity {
 
       AppRoomDataBase appRoomDataBase = AppRoomDataBase.Companion.getDatabase(this);
       appRoomDataBase.personDao()
-                     .insert(new Person("Version 2"));
+                     .insert(new Person("Version 2.2"));
       db = new DatabaseHelper(this);
-
       notesList.addAll(db.getAllNotes());
 
       FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);

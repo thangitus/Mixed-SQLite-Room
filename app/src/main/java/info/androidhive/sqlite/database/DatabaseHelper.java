@@ -90,7 +90,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
       SQLiteDatabase db = this.getWritableDatabase();
       Cursor cursor = db.rawQuery(selectQuery, null);
-
       // looping through all rows and adding to list
       if (cursor.moveToFirst()) {
          do {

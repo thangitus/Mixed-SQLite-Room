@@ -6,6 +6,6 @@ import androidx.room.PrimaryKey
 @Entity
 class Person(val name: String) {
 
-    @PrimaryKey(autoGenerate = true)
-    var id: Int = 1
+    @PrimaryKey
+    var id: Int? = null
 }

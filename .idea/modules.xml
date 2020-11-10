@@ -4,8 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/AndroidSQLite.iml" filepath="$PROJECT_DIR$/.idea/modules/AndroidSQLite.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/AndroidSQLite.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/AndroidSQLite.app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/SQLite.iml" filepath="$PROJECT_DIR$/SQLite.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
 </project>
