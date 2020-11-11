@@ -3,13 +3,16 @@ package info.androidhive.sqlite.database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import info.androidhive.sqlite.database.model.Note;
+import info.androidhive.sqlite.view.MainActivity;
 
 /**
  * Created by ravi on 15/03/18.
@@ -33,6 +36,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
       // create notes table
       db.execSQL(Note.CREATE_TABLE);
+      db.execSQL("CREATE TABLE Person ( id INTEGER  PRIMARY KEY AUTOINCREMENT , name TEXT NOT NULL)");
    }
 
    // Upgrading database
@@ -56,11 +60,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
       // insert row
       long id = db.insert(Note.TABLE_NAME, null, values);
-      try {
-         Thread.sleep(500);
-      } catch (InterruptedException e) {
-         e.printStackTrace();
-      }
+      //      try {
+      //         Thread.sleep(100);
+      //      } catch (InterruptedException e) {
+      //         e.printStackTrace();
+      //      }
+      Log.d(MainActivity.TAG, "insertNote: " + note);
       // close db connection
       db.close();
 
@@ -101,14 +106,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             note.setId(cursor.getInt(cursor.getColumnIndex(Note.COLUMN_ID)));
             note.setNote(cursor.getString(cursor.getColumnIndex(Note.COLUMN_NOTE)));
             note.setTimestamp(cursor.getString(cursor.getColumnIndex(Note.COLUMN_TIMESTAMP)));
-            try {
-               Thread.sleep(100);
-            } catch (InterruptedException e) {
-               e.printStackTrace();
-            }
+            //            try {
+            //               Thread.sleep(100);
+            //            } catch (InterruptedException e) {
+            //               e.printStackTrace();
+            //            }
             notes.add(note);
          } while (cursor.moveToNext());
       }
+      Log.d(MainActivity.TAG, "getAllNotes");
 
       // close db connection
       db.close();
@@ -143,5 +149,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
       SQLiteDatabase db = this.getWritableDatabase();
       db.delete(Note.TABLE_NAME, Note.COLUMN_ID + " = ?", new String[]{String.valueOf(note.getId())});
       db.close();
+   }
+   public void deleteAllNote() {
+      SQLiteDatabase db = this.getWritableDatabase();
+      db.execSQL("DELETE FROM " + Note.TABLE_NAME);
+      db.close();
+   }
+   String journalMode() {
+      SQLiteDatabase db = this.getWritableDatabase();
+      String mode = DatabaseUtils.stringForQuery(db, "PRAGMA journal_mode", null);
+      db.close();
+      return mode;
+      //      Cursor cursor=db.query()
    }
 }

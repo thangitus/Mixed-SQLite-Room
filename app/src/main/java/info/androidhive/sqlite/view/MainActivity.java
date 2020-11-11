@@ -34,6 +34,7 @@ import info.androidhive.sqlite.utils.MyDividerItemDecoration;
 import info.androidhive.sqlite.utils.RecyclerTouchListener;
 
 public class MainActivity extends AppCompatActivity {
+   public static final String TAG = "MainActivity";
    private NotesAdapter mAdapter;
    private List<Note> notesList = new ArrayList<>();
    private CoordinatorLayout coordinatorLayout;
@@ -248,41 +249,45 @@ public class MainActivity extends AppCompatActivity {
    Runnable insertRoom = new Runnable() {
       @Override
       public void run() {
-         for (int i = 0; i < 10; i++) {
+         Log.d(TAG, "insertRoom Start");
+         for (int i = 0; i < 20; i++) {
             personDAO.insert(new Person("Room Insert" + i));
-            try {
-               Thread.sleep(500);
-            } catch (InterruptedException e) {
-               e.printStackTrace();
-            }
+            Log.d(TAG, "insertRoom " + i + " done");
          }
-         Log.d("MainActivity", "insertRoom done");
+         Log.d(TAG, "insertRoom done");
       }
    };
    Runnable insertSQLite = new Runnable() {
       @Override
       public void run() {
-         for (int i = 0; i < 10; i++)
+         Log.d(TAG, "insertSQLite start");
+         for (int i = 0; i < 20; i++) {
             db.insertNote("Insert SQLite " + i);
-         Log.d("MainActivity", "insertSQLite done");
+         }
+         Log.d(TAG, "insertSQLite done");
 
       }
    };
    Runnable querySQLite = new Runnable() {
       @Override
       public void run() {
-         for (int i = 0; i < 10; i++)
+         Log.d(TAG, "querySQLite Start");
+         for (int i = 0; i < 20; i++) {
             db.getAllNotes();
-         Log.d("MainActivity", "querySQLite done");
+         }
+         Log.d(TAG, "querySQLite done");
 
       }
    };
    Runnable queryRoom = new Runnable() {
       @Override
       public void run() {
-         for (int i = 0; i < 10; i++)
+         Log.d(TAG, "queryRoom Start");
+         for (int i = 0; i < 20; i++) {
             personDAO.getAll();
-         Log.d("MainActivity", "queryRoom done");
+            Log.d(TAG, "queryRoom " + i + " done");
+         }
+         Log.d(TAG, "queryRoom done");
       }
    };
    public void insertAndInsert(View view) {
@@ -300,5 +305,16 @@ public class MainActivity extends AppCompatActivity {
    public void insertAndQuery(View view) {
       new Thread(insertRoom).start();
       new Thread(querySQLite).start();
+   }
+   public void clearNote(View view) {
+      db.deleteAllNote();
+
+      notesList.clear();
+      mAdapter.notifyDataSetChanged();
+
+      toggleEmptyNotes();
+   }
+   public void clearPerson(View view) {
+      personDAO.deleteAll();
    }
 }
