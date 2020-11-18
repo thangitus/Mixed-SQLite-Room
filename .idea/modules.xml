@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/AndroidSQLite.iml" filepath="$PROJECT_DIR$/.idea/modules/AndroidSQLite.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/AndroidSQLite.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/AndroidSQLite.app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Mixed-SQLite-Room.iml" filepath="$PROJECT_DIR$/.idea/modules/Mixed-SQLite-Room.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Mixed-SQLite-Room.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Mixed-SQLite-Room.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Fresher.Mixed-SQLite-Room.iml" filepath="$PROJECT_DIR$/.idea/modules/Fresher.Mixed-SQLite-Room.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Fresher.Mixed-SQLite-Room.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Fresher.Mixed-SQLite-Room.app.iml" />
     </modules>
   </component>
 </project>

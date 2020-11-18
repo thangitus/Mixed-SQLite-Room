@@ -52,7 +52,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
    public long insertNote(String note) {
       // get writable database as we want to write data
       SQLiteDatabase db = this.getWritableDatabase();
-
       ContentValues values = new ContentValues();
       // `id` and `timestamp` will be inserted automatically.
       // no need to add them
@@ -65,7 +64,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
       //      } catch (InterruptedException e) {
       //         e.printStackTrace();
       //      }
-      Log.d(MainActivity.TAG, "insertNote: " + note);
+//      db.rawQuery("PRAGMA journal_mode=DELETE", null);
+//      String mode = DatabaseUtils.stringForQuery(db, "PRAGMA journal_mode", null);
+
+//      Log.d(MainActivity.TAG, "insertNote: " + note + " " + mode);
       // close db connection
       db.close();
 
@@ -98,6 +100,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
       String selectQuery = "SELECT  * FROM " + Note.TABLE_NAME + " ORDER BY " + Note.COLUMN_TIMESTAMP + " DESC";
 
       SQLiteDatabase db = this.getWritableDatabase();
+      db.rawQuery("PRAGMA journal_mode=TRUNCATE", null);
       Cursor cursor = db.rawQuery(selectQuery, null);
       // looping through all rows and adding to list
       if (cursor.moveToFirst()) {
@@ -114,10 +117,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             notes.add(note);
          } while (cursor.moveToNext());
       }
-      Log.d(MainActivity.TAG, "getAllNotes");
+//      String mode = DatabaseUtils.stringForQuery(db, "PRAGMA journal_mode", null);
+//      Log.d(MainActivity.TAG, "getAllNotes " + mode);
 
       // close db connection
-      db.close();
+//      db.close();
 
       // return notes list
       return notes;
@@ -155,11 +159,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
       db.execSQL("DELETE FROM " + Note.TABLE_NAME);
       db.close();
    }
-   String journalMode() {
+   public String journalMode() {
       SQLiteDatabase db = this.getWritableDatabase();
       String mode = DatabaseUtils.stringForQuery(db, "PRAGMA journal_mode", null);
       db.close();
       return mode;
-      //      Cursor cursor=db.query()
    }
 }

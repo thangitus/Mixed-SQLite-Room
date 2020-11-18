@@ -35,6 +35,7 @@ import info.androidhive.sqlite.utils.RecyclerTouchListener;
 
 public class MainActivity extends AppCompatActivity {
    public static final String TAG = "MainActivity";
+   public static final int MAX = 5000;
    private NotesAdapter mAdapter;
    private List<Note> notesList = new ArrayList<>();
    private CoordinatorLayout coordinatorLayout;
@@ -249,45 +250,53 @@ public class MainActivity extends AppCompatActivity {
    Runnable insertRoom = new Runnable() {
       @Override
       public void run() {
+         Long start = System.currentTimeMillis();
          Log.d(TAG, "insertRoom Start");
-         for (int i = 0; i < 20; i++) {
+         for (int i = 0; i < MAX; i++) {
             personDAO.insert(new Person("Room Insert" + i));
-            Log.d(TAG, "insertRoom " + i + " done");
+//            Log.d(TAG, "insertRoom " + i + " done");
          }
-         Log.d(TAG, "insertRoom done");
+         Long end = System.currentTimeMillis();
+         Log.d(TAG, "insertRoom done " + (end - start));
       }
    };
    Runnable insertSQLite = new Runnable() {
       @Override
       public void run() {
+         Long start = System.currentTimeMillis();
          Log.d(TAG, "insertSQLite start");
-         for (int i = 0; i < 20; i++) {
+         for (int i = 0; i < MAX; i++) {
             db.insertNote("Insert SQLite " + i);
          }
-         Log.d(TAG, "insertSQLite done");
+         Long end = System.currentTimeMillis();
+         Log.d(TAG, "insertSQLite done " + (end - start));
 
       }
    };
    Runnable querySQLite = new Runnable() {
       @Override
       public void run() {
+         Long start = System.currentTimeMillis();
          Log.d(TAG, "querySQLite Start");
-         for (int i = 0; i < 20; i++) {
+         for (int i = 0; i < 10; i++) {
             db.getAllNotes();
          }
-         Log.d(TAG, "querySQLite done");
+         Long end = System.currentTimeMillis();
+         Log.d(TAG, "querySQLite done " + (end - start));
 
       }
    };
    Runnable queryRoom = new Runnable() {
       @Override
       public void run() {
+         Long start = System.currentTimeMillis();
          Log.d(TAG, "queryRoom Start");
-         for (int i = 0; i < 20; i++) {
+         for (int i = 0; i < 10; i++) {
             personDAO.getAll();
-            Log.d(TAG, "queryRoom " + i + " done");
+//            Log.d(TAG, "queryRoom " + i + " done");
          }
-         Log.d(TAG, "queryRoom done");
+         Long end = System.currentTimeMillis();
+         Log.d(TAG, "queryRoom done " + (end - start));
       }
    };
    public void insertAndInsert(View view) {
